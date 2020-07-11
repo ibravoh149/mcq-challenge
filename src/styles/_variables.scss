@@ -1,0 +1,47 @@
+// override bootstrap 4 variables
+
+// $blue: #2196f3;
+// $indigo: #536dfe;
+// $purple: #9c27b0;
+// $pink: #ff4081;
+// $red: #f44336;
+// $orange: #ff9800;
+// $yellow: #ffeb3b;
+// $green: #4caf50;
+// $teal: #009688;
+// $cyan: #00bcd4;
+// $white: #fff;
+$theme-colors: (
+  "primary": #3b4b5c,
+  "secondary": #da291c  ,
+  "success": #45b649,
+  "danger": #f85032,
+  "warning": #ffd700,
+  // "warning": #ffffff,
+  "info": #0f6eff,
+
+  "black": #26292d,
+  "red": #da291c,
+  "grey": #63666a,
+  "helper-text-color": #919ba8,
+  "pre-green": #0db884,
+  "new-faded-white": #eaecef,
+  "tef-blue": #0f6eff,
+  "icon-colour-2": #ffd498,
+  "pale-grey": #fafafb,
+  "body-background": #f6f8fc,
+  "pale-lilac": #e2e2ea,
+  "very-light-blue": #eaedf3,
+  "clear-blue": #249af3,
+  "blue-grey": #7f8fa4,
+);
+
+$enable-gradients: true;
+
+// card
+//
+$card-cap-bg: #fff;
+
+
+// sidebar
+$cr-sidebar-width: 224px;
