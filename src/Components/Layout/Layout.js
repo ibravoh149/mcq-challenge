@@ -29,7 +29,7 @@ const Layout = (props) => {
               </Col>
             </Row>
           </Col>
-          <Col sm={12} lg={{ size: 2 }}>
+          <Col sm={{ size: 12, order: 2 }} lg={{ size: 2, order: 2 }}>
             <SideRight />
           </Col>
         </Row>

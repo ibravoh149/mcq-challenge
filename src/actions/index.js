@@ -1,0 +1,5 @@
+export const GET_QUESTIONS = "GET_QUESTIONS";
+export const SUBMIT_TEST = "SUBMIT_TEST";
+export const RESTART_TEST = "RESTART_TEST";
+export const SET_ANSWER = "SET_ANSWER";
+export const CALCULATE_SCORE = "CALCULATE_SCORE";

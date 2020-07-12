@@ -1,0 +1,27 @@
+.internet-error{
+  position: fixed;
+  display: flex;
+  z-index: 9999;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  & p{
+    font-family: SFProDisplay;
+      font-size: 18px;
+      line-height: 1.71;
+      letter-spacing: 0.2px;
+      color: var(--h1-black-new);
+  }
+}
+
+.loading_spinner{
+  background-color: #fff;
+  // background-color: #282b33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

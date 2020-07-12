@@ -15,9 +15,9 @@ const SideRight = () => {
     } else {
       // Render a countdown
       const timerColor =
-        minutes > 20
+        minutes > 5
           ? "timer-success"
-          : minutes <= 20 && minutes >= 5
+          : minutes <= 5 && minutes >= 2
           ? "timer-warning"
           : "timer-danger";
       return (
@@ -35,7 +35,7 @@ const SideRight = () => {
       {/* <div className="mcq-sidebar-right__timer"> */}
       <Countdown
         renderer={renderer}
-        date={moment(Date.now()).add(45, "m").valueOf()}
+        date={moment(Date.now()).add(8, "m").valueOf()}
         onComplete={() => console.log("completed")}
       />
       {/* </div> */}
@@ -50,7 +50,7 @@ const SideRight = () => {
           </div>
           <div className="instruction-item">
             <div className="instruction-item__count">2</div>
-            <p>You have 45 mins to answer all questions.</p>
+            <p>You have 8 mins to answer all questions.</p>
           </div>
           <div className="instruction-item">
             <div className="instruction-item__count">3</div>
@@ -63,12 +63,28 @@ const SideRight = () => {
               automatically Submit your answers.
             </p>
           </div>
-          {/* <div className="instruction-item">
+          <div className="instruction-item">
             <div className="instruction-item__count">5</div>
             <p>
-              You can take test again by clicking on "retake test" button below.
+              Do not refresh the page while the test is going on, if you attempt
+              to do so, you will get new set of questions and your timer will
+              not reset
             </p>
-          </div> */}
+          </div>
+          <div className="instruction-item">
+            <div className="instruction-item__count">6</div>
+            <p>
+              if you attempt to logout and log back in, you will be greeted with
+              new set of questions
+            </p>
+          </div>
+          <div className="instruction-item">
+            <div className="instruction-item__count">7</div>
+            <p>
+              Finally, you can always retake test after completing current test
+              but with new set of questions
+            </p>
+          </div>
         </div>
       </div>
     </div>
