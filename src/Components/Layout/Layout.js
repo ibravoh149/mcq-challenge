@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row, Container } from "reactstrap";
 import Header from "../Header/Header";
 import SideLeftBar from "../SideLeft/SideLeft";
+import SideRight from "../SideRight/SideRight";
 
 const Layout = (props) => {
   return (
@@ -28,8 +29,8 @@ const Layout = (props) => {
               </Col>
             </Row>
           </Col>
-          <Col sm={12} lg={{ size: 2 }} style={{ backgroundColor: "violet" }}>
-            hellp
+          <Col sm={12} lg={{ size: 2 }}>
+            <SideRight />
           </Col>
         </Row>
       </Container>

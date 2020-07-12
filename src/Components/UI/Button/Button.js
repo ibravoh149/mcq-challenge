@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import "./Button.scss";
+import Loader from "react-loader-spinner";
 
 export const Button = ({
   value,
@@ -33,6 +32,19 @@ export const Button = ({
     styles.backgroundColor = "#919ba8";
     // styles.borderColor = "#919ba8";
     styles.border = `2px solid #919ba8`;
+    onClick = () => {
+      console.log("inavtive");
+    };
+  }
+  if (isLoading) {
+    value = (
+      <Loader
+        type="Oval"
+        color={textColor}
+        height={fontSize}
+        width={fontSize}
+      />
+    );
     onClick = () => {
       console.log("inavtive");
     };

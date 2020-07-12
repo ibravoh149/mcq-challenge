@@ -51,9 +51,34 @@
   top: 50px;
   margin: auto;
 }
+.score-card{
+  display: flex;
+  margin-top: 30px;
+  padding: 10px;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 30px 60px 0 rgba(145, 155, 168, 0.11) !important;
+  & h1{
+  
+    font-size: 18px;
+    color: var(--helper-text-color);
+    & span{
+      font-weight: 600;
+    }
+  }
+}
 
 @media only screen and (max-width:991px){
   .mcq-sidebar-left{
     display: none;
   }
+}
+
+// .flex{
+//   display: flex;
+//   flex
+// }
+
+.flex-1{
+  flex:1
 }
