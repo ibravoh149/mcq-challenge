@@ -3,6 +3,7 @@ import { Col, Row, Container } from "reactstrap";
 import Header from "../Header/Header";
 import SideLeftBar from "../SideLeft/SideLeft";
 import SideRight from "../SideRight/SideRight";
+import "./Layout.scss";
 
 const Layout = (props) => {
   return (
@@ -16,8 +17,8 @@ const Layout = (props) => {
             // className="mcq-sidebar-left-container"
           ></Col>
           <Col sm={12} lg={{ size: 9 }}>
-            <div>
-              <h2>Welcome ot your MCQ test.</h2>
+            <div className="mc-heading-main">
+              <h2>Welcome to your MCQ test.</h2>
               <span>It won't take long</span>
             </div>
             <Row>

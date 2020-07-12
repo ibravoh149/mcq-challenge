@@ -1,17 +1,10 @@
-import React, { useReducer } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import moment from "moment";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  GET_QUESTIONS,
-  SUBMIT_TEST,
-  SET_ANSWER,
-  CALCULATE_SCORE,
-} from "../actions";
+import { GET_QUESTIONS, SET_ANSWER, CALCULATE_SCORE } from "../actions";
 import { asyncActions } from "../utils/AsyncUtils";
 import { TestUrl } from "../constants";
 import shortid from "shortid";
-
 const shuffle = (arr) => {
   if (arr.length === 1) {
     return arr;
@@ -61,11 +54,44 @@ export const setAnswers = (dispatch, payload) => {
   dispatch(asyncActions(SET_ANSWER).success(payload));
 };
 
-export const calculateScore = (dispatch, payload) => {
-  const score = 0;
+export const submitTest = (dispatch, payload) => {
+  dispatch(asyncActions(CALCULATE_SCORE).loading(true));
+  let finalScore = 0;
   const { questions, answers } = payload;
 
-  console.log(questions);
-  console.log(answers);
-  dispatch(asyncActions(CALCULATE_SCORE).success(score));
+  // if (questions.length !== answers.length) {
+  //   return;
+  // }
+  // for (let i = 0; i > answers.length; i++) {
+  //   if (answers[i] === questions[i]) {
+  //     if (answers[i].answer === questions[i].correct_answer) {
+  //       score++;
+  //     }
+  //   }
+  // }
+
+  const calc = (questions, answers) => {
+    let score = 0;
+    for (let question in questions) {
+      for (let answer in answers) {
+        if (questions[question].id === answers[answer].id) {
+          if (questions[question].correct_answer === answers[answer].answer) {
+            score++;
+          }
+        }
+      }
+    }
+    return score;
+  };
+
+  setTimeout(() => {
+    finalScore = calc(questions, answers);
+    localStorage.c = true;
+    localStorage.d = moment(Date.now()).add(0, "m").valueOf();
+    const event = new Event("completed");
+    document.dispatchEvent(event);
+    // localStorage.s= false
+    dispatch(asyncActions(CALCULATE_SCORE).success(finalScore));
+    dispatch(asyncActions(CALCULATE_SCORE).loading(false));
+  }, 2000);
 };

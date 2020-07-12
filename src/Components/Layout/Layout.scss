@@ -1,4 +1,15 @@
 .mcq-sidebar-left-container{
   padding: 20px 10px;
-  background-color: red;
+  // background-color: red;
+}
+
+.mc-heading-main{
+  padding: 10px 20px;
+  & h2{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  & span{
+    color: var(--helper-text-color);
+  }
 }

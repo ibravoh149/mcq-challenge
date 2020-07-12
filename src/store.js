@@ -8,6 +8,7 @@ export const initialState = {
     questions: [],
     answers: [],
     score: null,
+    requestingSubmit: false,
   },
 };
 

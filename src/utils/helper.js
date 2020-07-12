@@ -1,6 +1,4 @@
-import countryAndRegion from "./countryList.json";
-import React, { useRef, useEffect } from "react";
-import Swal from "sweetalert2";
+import { useRef, useEffect, useState } from "react";
 
 export const capitalize_Words = (str) => {
   return str.replace(/\w\S*/g, function (txt) {
@@ -35,4 +33,33 @@ export const useOuterClick = (callback) => {
   }, []); // no need for callback + innerRef dep
 
   return innerRef; // return ref; client can omit `useRef`
+};
+
+export const useEvents = () => {
+  const [start, setStart] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    document.addEventListener("started", () => {
+      setStart(localStorage.s);
+    });
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("completed", () => {
+      setCompleted(localStorage.c);
+    });
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      setStart(localStorage.s);
+      setCompleted(localStorage.c);
+    });
+  }, []);
+
+  return {
+    start,
+    completed,
+  };
 };

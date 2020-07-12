@@ -2,24 +2,29 @@ import React, { useEffect, useContext, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
 import "./QuestionsHome.scss";
 import { Progress } from "reactstrap";
-import { Radio, Button, CheckBox } from "../../Components/UI";
+import { Radio, Button, CLoader } from "../../Components/UI";
 import {
   getQuestions,
   setAnswers,
-  calculateScore,
+  submitTest,
 } from "../../requests/TestRequests";
 import { Context } from "../../store";
 import StepWizard from "react-step-wizard";
 import shortid from "shortid";
+import { useEvents } from "../../utils/helper";
 
 const QuestionsHome = () => {
   const { state, dispatch } = useContext(Context);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
-
+  // c= completed
+  // s= start
   useEffect(() => {
+    // if (!localStorage.c || !localStorage.s) {
     getQuestions(dispatch);
+    // }
   }, []);
 
+  const events = useEvents();
   const totalQuestions =
     state.Test && state.Test.questions && state.Test.questions.length;
 
@@ -27,7 +32,6 @@ const QuestionsHome = () => {
     const {
       question,
       currentStep,
-      totalSteps,
       nextStep,
       previousStep,
 
@@ -47,7 +51,7 @@ const QuestionsHome = () => {
     };
 
     const _handleSubmit = () => {
-      calculateScore(dispatch, {
+      submitTest(dispatch, {
         questions: state.Test.questions,
         answers: state.Test.answers,
       });
@@ -87,15 +91,18 @@ const QuestionsHome = () => {
         </div>
         <div className="mcq-question-container">
           <div className="mqc-question-buttons-c">
-            <Button
-              value="Previous"
-              height="40px"
-              bgColor="white"
-              borderColor="#3b4b5c"
-              textColor="#3b4b5c"
-              width="150px"
-              onClick={_previousStep}
-            />
+            {currentStep > 1 && (
+              <Button
+                value="Previous"
+                height="40px"
+                bgColor="white"
+                borderColor="#3b4b5c"
+                textColor="#3b4b5c"
+                width="150px"
+                onClick={_previousStep}
+              />
+            )}
+
             <Button
               value={currentStep === totalQuestions ? "Submit" : "Next"}
               height="40px"
@@ -119,6 +126,10 @@ const QuestionsHome = () => {
 
   return (
     <Layout>
+      <CLoader
+        loading={state.Test.requestingSubmit}
+        additonalInfo="Getting test score"
+      />
       <div className="mcq-main">
         {" "}
         <div className="mcq-question-container">
@@ -138,24 +149,36 @@ const QuestionsHome = () => {
             </span>
           </div>
         </div>
-        <StepWizard
-        // transitions={{
-        //   enterRight: "none",
-        //   enterLeft: "none",
-        //   exitRight: "none",
-        //   exitLeft: "none",
-        // }}
-        >
-          {state.Test &&
-            state.Test.questions &&
-            // state.Test.questions.length > 0 &&
-            state.Test.questions.map((question) => (
-              <QuestionBox
-                question={question}
-                setCurrentStepIndex={setCurrentQuestionIndex}
-              />
-            ))}
-        </StepWizard>
+        {(events.start || localStorage.s) &&
+        (!events.completed || !localStorage.c || localStorage.c === "false") ? (
+          <StepWizard
+          // transitions={{
+          //   enterRight: "none",
+          //   enterLeft: "none",
+          //   exitRight: "none",
+          //   exitLeft: "none",
+          // }}
+          >
+            {state.Test &&
+              state.Test.questions &&
+              // state.Test.questions.length > 0 &&
+              state.Test.questions.map((question) => (
+                <QuestionBox
+                  question={question}
+                  setCurrentStepIndex={setCurrentQuestionIndex}
+                />
+              ))}
+          </StepWizard>
+        ) : (events.start || localStorage.s) &&
+          (events.completed ||
+            (localStorage.c && localStorage.c === "true")) ? (
+          <div className="mcq-question-container">completed</div>
+        ) : (
+          <div className="mcq-question-container">Not started</div>
+        )}
+        {state.Test.requestingTestQuestions && (
+          <div className="mcq-question-container">fetching questions...</div>
+        )}
       </div>
     </Layout>
   );

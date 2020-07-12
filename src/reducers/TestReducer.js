@@ -32,9 +32,10 @@ const TestReducer = (state = initialState.test, action) => {
 
     case asyncActionName(SET_ANSWER).success:
       return { ...state, answers: setAnswer(state.answers, action.payload) };
-
     case asyncActionName(CALCULATE_SCORE).success:
       return { ...state, score: action.payload };
+    case asyncActionName(CALCULATE_SCORE).loading:
+      return { ...state, requestingSubmit: action.payload };
     default:
       return state;
   }

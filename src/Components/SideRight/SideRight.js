@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./SideRight.scss";
-import Countdown, { zeroPad } from "react-countdown";
+import Countdown, { zeroPad, calcTimeDelta } from "react-countdown";
 import moment from "moment";
+import { submitTest } from "../../requests/TestRequests";
+import { Context } from "../../store";
+import { useEvents } from "../../utils/helper";
 
 const SideRight = () => {
+  const { state, dispatch } = useContext(Context);
+
+  const startTimer = () => {
+    if (localStorage.s) {
+      // localStorage.count = true;
+      localStorage.d = moment(Date.now()).add(1, "m").valueOf();
+    }
+  };
+
+  const events = useEvents();
+
+  useEffect(() => {
+    document.addEventListener("started", startTimer);
+  }, []);
+
+  useEffect(() => {}, []);
+
+  let date;
+  if (localStorage.d) {
+    date = calcTimeDelta(JSON.parse(localStorage.d));
+  }
+
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
       // Render a completed state
@@ -30,14 +55,51 @@ const SideRight = () => {
     }
   };
 
+  const showTimer = () => {
+    if (!localStorage.count) {
+      localStorage.count = true;
+      localStorage.d = moment(Date.now()).add(1, "m").valueOf();
+    }
+    if (
+      (events.start || localStorage.s) &&
+      (!events.completed || !localStorage.c || localStorage.c === "false")
+    ) {
+      return (
+        <Countdown
+          renderer={renderer}
+          date={Date.now() + date.total}
+          onComplete={() =>
+            submitTest(dispatch, {
+              questions: state.Test && state.Test.questions,
+              answers: state.Test && state.Test.answers,
+            })
+          }
+        />
+      );
+    } else if (
+      (events.start || localStorage.s) &&
+      (events.completed || (localStorage.c && localStorage.c === "true"))
+    ) {
+      return (
+        <div className={`mcq-sidebar-right__timer`}>
+          <span>Submitted</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className={`mcq-sidebar-right__timer`}>
+          <span>Not started</span>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="mcq-sidebar-right">
       {/* <div className="mcq-sidebar-right__timer"> */}
-      <Countdown
-        renderer={renderer}
-        date={moment(Date.now()).add(8, "m").valueOf()}
-        onComplete={() => console.log("completed")}
-      />
+
+      {showTimer()}
+
       {/* </div> */}
       <span className="time-left">Time Left</span>
 

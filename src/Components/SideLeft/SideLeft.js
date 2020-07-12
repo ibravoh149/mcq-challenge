@@ -1,10 +1,54 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./SideLeft.scss";
 import ReactAvatar from "react-avatar";
 import { AiOutlineUser, AiOutlineMail } from "react-icons/ai";
 import { Button } from "../UI";
+import { Context } from "../../store";
+import { useEvents } from "../../utils/helper";
+import { getQuestions } from "../../requests/TestRequests";
 
 const SideLeftBar = () => {
+  const { state, dispatch } = useContext(Context);
+  const totalQuestions =
+    state.Test && state.Test.questions && state.Test.questions.length;
+  const events = useEvents();
+  const startAssessment = () => {
+    if (!localStorage.s) {
+      localStorage.s = true;
+      localStorage.c = false;
+      createEventStarted();
+    }
+  };
+
+  const createEventStarted = () => {
+    const event = new Event("started");
+    document.dispatchEvent(event);
+  };
+
+  const createEventCompleted = () => {
+    const event = new Event("completed");
+    document.dispatchEvent(event);
+  };
+
+  const _handleStartClick = () => {
+    return (events.start || localStorage.s) &&
+      (!events.completed || !localStorage.c || localStorage.c === "false")
+      ? startAssessment()
+      : (events.start || localStorage.s) &&
+        (events.completed || (localStorage.c && localStorage.c === "true"))
+      ? restartAssestment()
+      : startAssessment();
+  };
+
+  const restartAssestment = () => {
+    getQuestions(dispatch);
+    // localStorage.clear();
+    localStorage.s = true;
+    localStorage.c = false;
+    createEventStarted();
+    createEventCompleted();
+  };
+
   return (
     <div className="mcq-sidebar-left">
       <div className="mcq-sidebar-left__wrapper">
@@ -26,16 +70,33 @@ const SideLeftBar = () => {
         </div>
         <div className="score-card">
           <h1>
-            Your test score:<span>45</span>
+            Your test score:{" "}
+            {state.Test.score && (
+              <span>
+                {state.Test.score} /{totalQuestions}
+              </span>
+            )}
           </h1>
 
           <Button
             bgColor="var(--pre-green)"
             borderColor="var(--pre-green)"
             // className="flex-1"
-            value="Start Test"
+            value={
+              (events.start || localStorage.s) &&
+              (!events.completed ||
+                !localStorage.c ||
+                localStorage.c === "false")
+                ? "Started Test"
+                : (events.start || localStorage.s) &&
+                  (events.completed ||
+                    (localStorage.c && localStorage.c === "true"))
+                ? "Retake Test"
+                : "Start Test"
+            }
             width="150px"
             // isLoading
+            onClick={_handleStartClick}
           />
         </div>
       </div>
