@@ -19,6 +19,7 @@ $theme-colors: (
   "warning": #ffd700,
   // "warning": #ffffff,
   "info": #0f6eff,
+  "white":#fff,
 
   "black": #26292d,
   "red": #da291c,
@@ -26,7 +27,7 @@ $theme-colors: (
   "helper-text-color": #919ba8,
   "pre-green": #0db884,
   "new-faded-white": #eaecef,
-  "tef-blue": #0f6eff,
+  "blue": #0f6eff,
   "icon-colour-2": #ffd498,
   "pale-grey": #fafafb,
   "body-background": #f6f8fc,
@@ -34,6 +35,7 @@ $theme-colors: (
   "very-light-blue": #eaedf3,
   "clear-blue": #249af3,
   "blue-grey": #7f8fa4,
+  "header-bg":rgb(33, 30, 30),
 );
 
 $enable-gradients: true;
