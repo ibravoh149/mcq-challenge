@@ -1,7 +1,12 @@
 import axios from "axios";
 import moment from "moment";
 import "react-toastify/dist/ReactToastify.css";
-import { GET_QUESTIONS, SET_ANSWER, CALCULATE_SCORE } from "../actions";
+import {
+  GET_QUESTIONS,
+  SET_ANSWER,
+  CALCULATE_SCORE,
+  CLEAR_ANSWERS,
+} from "../actions";
 import { asyncActions } from "../utils/AsyncUtils";
 import { TestUrl } from "../constants";
 import shortid from "shortid";
@@ -87,6 +92,7 @@ export const submitTest = (dispatch, payload) => {
   setTimeout(() => {
     finalScore = calc(questions, answers);
     localStorage.c = true;
+    localStorage.score = finalScore;
     localStorage.d = moment(Date.now()).add(0, "m").valueOf();
     const event = new Event("completed");
     document.dispatchEvent(event);
@@ -94,4 +100,11 @@ export const submitTest = (dispatch, payload) => {
     dispatch(asyncActions(CALCULATE_SCORE).success(finalScore));
     dispatch(asyncActions(CALCULATE_SCORE).loading(false));
   }, 2000);
+};
+
+export const clearAnswers = (dispatch) => {
+  localStorage.removeItem("score");
+  const event = new Event("score_removed");
+  document.dispatchEvent(event);
+  dispatch(asyncActions(CLEAR_ANSWERS).success([]));
 };

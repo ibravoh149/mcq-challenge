@@ -7,6 +7,9 @@
 }
 .mcq-main{
   padding: 30px 0px;
+  &__timer-holder{
+    display: none;
+  }
 }
 
 .counter{
@@ -50,4 +53,14 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+
+@media only screen and (max-width:991px){
+  .mcq-main{
+    &__timer-holder{
+     display: block;
+     margin: 0px 20px;
+    }
+  }
 }

@@ -1,5 +1,10 @@
 import { asyncActionName } from "../utils/AsyncUtils";
-import { GET_QUESTIONS, SET_ANSWER, CALCULATE_SCORE } from "../actions";
+import {
+  GET_QUESTIONS,
+  SET_ANSWER,
+  CALCULATE_SCORE,
+  CLEAR_ANSWERS,
+} from "../actions";
 import { initialState } from "../store";
 
 const setAnswer = (previousState, payload) => {
@@ -36,6 +41,9 @@ const TestReducer = (state = initialState.test, action) => {
       return { ...state, score: action.payload };
     case asyncActionName(CALCULATE_SCORE).loading:
       return { ...state, requestingSubmit: action.payload };
+
+    case asyncActionName(CLEAR_ANSWERS).success:
+      return { ...state, answers: action.payload, score: 0 };
     default:
       return state;
   }

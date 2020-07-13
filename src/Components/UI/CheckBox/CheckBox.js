@@ -33,7 +33,7 @@ CheckBox.defaultProps = {
 export const Radio = ({ label, value, name, className, onChange, checked }) => {
   return (
     <label className={`radio-container ${className}`}>
-      {label}
+      <span dangerouslySetInnerHTML={{ __html: label }}></span>
       <input
         type="radio"
         name={name}

@@ -7,11 +7,13 @@ import {
   getQuestions,
   setAnswers,
   submitTest,
+  clearAnswers,
 } from "../../requests/TestRequests";
 import { Context } from "../../store";
 import StepWizard from "react-step-wizard";
 import shortid from "shortid";
 import { useEvents } from "../../utils/helper";
+import Timer from "../../Components/Timer/Timer";
 
 const QuestionsHome = () => {
   const { state, dispatch } = useContext(Context);
@@ -21,6 +23,7 @@ const QuestionsHome = () => {
   useEffect(() => {
     // if (!localStorage.c || !localStorage.s) {
     getQuestions(dispatch);
+    // clearAnswers(dispatch);
     // }
   }, []);
 
@@ -62,7 +65,10 @@ const QuestionsHome = () => {
         <div className="mcq-question-container">
           <div className="mqc-question-item">
             <div className="mqc-question-item__count">{currentStep}</div>
-            <p>{question.question}</p>
+            <p dangerouslySetInnerHTML={{ __html: question.question }}>
+              {/* {question.question} */}
+            </p>
+            {/* <div dangerouslySetInnerHTML={{ __html: question.question }}></div> */}
           </div>
         </div>
         <h6 className="mcq-question-label">Options</h6>
@@ -132,6 +138,9 @@ const QuestionsHome = () => {
       />
       <div className="mcq-main">
         {" "}
+        <div className="mcq-main__timer-holder">
+          <Timer />
+        </div>
         <div className="mcq-question-container">
           <div>
             <Progress
@@ -164,6 +173,7 @@ const QuestionsHome = () => {
               // state.Test.questions.length > 0 &&
               state.Test.questions.map((question) => (
                 <QuestionBox
+                  // key={shortid.generate()}
                   question={question}
                   setCurrentStepIndex={setCurrentQuestionIndex}
                 />
@@ -172,9 +182,16 @@ const QuestionsHome = () => {
         ) : (events.start || localStorage.s) &&
           (events.completed ||
             (localStorage.c && localStorage.c === "true")) ? (
-          <div className="mcq-question-container">completed</div>
+          <div className="mcq-question-container">
+            Thanks for taking the test.
+          </div>
         ) : (
-          <div className="mcq-question-container">Not started</div>
+          <div className="mcq-question-container">
+            Click on "Start Test" button to begin.
+            <br />
+            Track your time left with the timer at the top right of your screen
+            (Will show as soon as test starts)
+          </div>
         )}
         {state.Test.requestingTestQuestions && (
           <div className="mcq-question-container">fetching questions...</div>

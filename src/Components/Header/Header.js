@@ -6,21 +6,19 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  NavbarText,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
 import ReactAvatar from "react-avatar";
 import { IoIosPaper } from "react-icons/io";
+import { useUser } from "../../utils/helper";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+  const user = useUser();
 
   return (
     <div>
@@ -36,28 +34,12 @@ const Header = (props) => {
           color="white"
         >
           <Nav className="mr-auto" navbar color="green">
-            <NavItem>
+            {/* <NavItem>
               <NavLink href="/components/">Components</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            </NavItem> */}
           </Nav>
           <NavbarText>
-            <ReactAvatar round size={42} name="Jane Doe" />
+            <ReactAvatar round size={42} name={user.username} />
           </NavbarText>
         </Collapse>
       </Navbar>

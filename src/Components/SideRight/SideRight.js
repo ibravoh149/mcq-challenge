@@ -5,103 +5,14 @@ import moment from "moment";
 import { submitTest } from "../../requests/TestRequests";
 import { Context } from "../../store";
 import { useEvents } from "../../utils/helper";
+import Timer from "../Timer/Timer";
 
 const SideRight = () => {
-  const { state, dispatch } = useContext(Context);
-
-  const startTimer = () => {
-    if (localStorage.s) {
-      // localStorage.count = true;
-      localStorage.d = moment(Date.now()).add(1, "m").valueOf();
-    }
-  };
-
-  const events = useEvents();
-
-  useEffect(() => {
-    document.addEventListener("started", startTimer);
-  }, []);
-
-  useEffect(() => {}, []);
-
-  let date;
-  if (localStorage.d) {
-    date = calcTimeDelta(JSON.parse(localStorage.d));
-  }
-
-  const renderer = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-      // Render a completed state
-      return (
-        <div className={`mcq-sidebar-right__timer`}>
-          <span>Submitted</span>
-        </div>
-      );
-    } else {
-      // Render a countdown
-      const timerColor =
-        minutes > 5
-          ? "timer-success"
-          : minutes <= 5 && minutes >= 2
-          ? "timer-warning"
-          : "timer-danger";
-      return (
-        <div className={`mcq-sidebar-right__timer ${timerColor}`}>
-          <span>
-            {zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
-          </span>
-        </div>
-      );
-    }
-  };
-
-  const showTimer = () => {
-    if (!localStorage.count) {
-      localStorage.count = true;
-      localStorage.d = moment(Date.now()).add(1, "m").valueOf();
-    }
-    if (
-      (events.start || localStorage.s) &&
-      (!events.completed || !localStorage.c || localStorage.c === "false")
-    ) {
-      return (
-        <Countdown
-          renderer={renderer}
-          date={Date.now() + date.total}
-          onComplete={() =>
-            submitTest(dispatch, {
-              questions: state.Test && state.Test.questions,
-              answers: state.Test && state.Test.answers,
-            })
-          }
-        />
-      );
-    } else if (
-      (events.start || localStorage.s) &&
-      (events.completed || (localStorage.c && localStorage.c === "true"))
-    ) {
-      return (
-        <div className={`mcq-sidebar-right__timer`}>
-          <span>Submitted</span>
-        </div>
-      );
-    } else {
-      return (
-        <div className={`mcq-sidebar-right__timer`}>
-          <span>Not started</span>
-        </div>
-      );
-    }
-  };
-
   return (
     <div className="mcq-sidebar-right">
-      {/* <div className="mcq-sidebar-right__timer"> */}
-
-      {showTimer()}
-
-      {/* </div> */}
-      <span className="time-left">Time Left</span>
+      <div className="mcq-sidebar-right__timer-holder">
+        <Timer />
+      </div>
 
       <div className="mcq-sidebar-right__intsructions-c">
         <h6 className="">Instructions</h6>
@@ -112,7 +23,7 @@ const SideRight = () => {
           </div>
           <div className="instruction-item">
             <div className="instruction-item__count">2</div>
-            <p>You have 8 mins to answer all questions.</p>
+            <p>You have 5 mins to answer all questions.</p>
           </div>
           <div className="instruction-item">
             <div className="instruction-item__count">3</div>

@@ -4,8 +4,10 @@ import ReactAvatar from "react-avatar";
 import { AiOutlineUser, AiOutlineMail } from "react-icons/ai";
 import { Button } from "../UI";
 import { Context } from "../../store";
-import { useEvents } from "../../utils/helper";
-import { getQuestions } from "../../requests/TestRequests";
+import { useEvents, useUser } from "../../utils/helper";
+import { getQuestions, clearAnswers } from "../../requests/TestRequests";
+import { Logout } from "../../requests/logout";
+import { useHistory } from "react-router-dom";
 
 const SideLeftBar = () => {
   const { state, dispatch } = useContext(Context);
@@ -19,6 +21,8 @@ const SideLeftBar = () => {
       createEventStarted();
     }
   };
+  const user = useUser();
+  const history = useHistory();
 
   const createEventStarted = () => {
     const event = new Event("started");
@@ -42,6 +46,7 @@ const SideLeftBar = () => {
 
   const restartAssestment = () => {
     getQuestions(dispatch);
+    clearAnswers(dispatch);
     // localStorage.clear();
     localStorage.s = true;
     localStorage.c = false;
@@ -54,28 +59,35 @@ const SideLeftBar = () => {
       <div className="mcq-sidebar-left__wrapper">
         <div className="mcq-sidebar-left__wrapper--avatar-containter">
           <div className="sidebar-avatar">
-            <ReactAvatar name="John Doe" size={100} round />
+            <ReactAvatar name={user.username} size={100} round />
           </div>
         </div>
         <div className="mcq-sidebar-left__wrapper--profile-card">
           <span className="profile-card-item">
             <AiOutlineUser color="#3b4b5c" size={16} />{" "}
-            <span style={{ marginLeft: "10px" }}>ibravoh149</span>
+            <span style={{ marginLeft: "10px" }}>{user.username}</span>
           </span>
 
           <span className="profile-card-item">
             <AiOutlineMail color="#3b4b5c" size={16} />{" "}
-            <span style={{ marginLeft: "10px" }}>ibravoh149@gmail.com</span>
+            <span style={{ marginLeft: "10px" }}>{user.email}</span>
           </span>
+          <div className="logout" onClick={() => Logout(history)}>
+            Logout
+          </div>
         </div>
         <div className="score-card">
           <h1>
             Your test score:{" "}
-            {state.Test.score && (
+            {state.Test.score ? (
               <span>
-                {state.Test.score} /{totalQuestions}
+                {state.Test.score} /{totalQuestions || 10}
               </span>
-            )}
+            ) : events.score ? (
+              <span>
+                {events.score} /{totalQuestions || 10}
+              </span>
+            ) : null}
           </h1>
 
           <Button

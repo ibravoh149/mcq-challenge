@@ -1,15 +1,5 @@
 .mcq-sidebar-right{
-  &__timer{
-    padding: 10px 15px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    display: flex;
-    background-color: #3b4b5c;
-    color: var(--new-faded-white);
-    border-radius: 3px;
-    margin-top: 10px;
-  }
+ 
   &__intsructions-c{
     margin-top: 20px;
     & h6{
@@ -71,5 +61,13 @@
     line-height: 1.5;
     margin-left: 5px;
   
+  }
+}
+
+@media only screen and (max-width:991px){
+  .mcq-sidebar-right{
+    &__timer-holder{
+     display: none;
+    }
   }
 }

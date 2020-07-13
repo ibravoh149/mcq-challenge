@@ -13,6 +13,7 @@ import NetworkService from "./utils/Services/NetworkService";
 import { toast } from "react-toastify";
 import { isLoggedIn } from "./utils/isLoggedIn";
 import QuestionsHome from "./Pages/QuestionsHome/QuestionsHome";
+import Login from "./Pages/Login/Login";
 
 toast.configure({ hideProgressBar: true });
 
@@ -23,19 +24,8 @@ function App() {
         <Router>
           <div className="App">
             <Switch>
-              <Route exact path="/" component={QuestionsHome} />
-
-              {/* <Route
-                exact
-                path="/"
-                component={isLoggedIn() ? HomePage : Login}
-              /> */}
-
-              {/* <PrivateRoute
-                exact
-                path="/test"
-                component={QuestionsHome}
-              /> */}
+              <Route exact path="/" component={Login} />
+              <PrivateRoute exact path="/test" component={QuestionsHome} />
               <Redirect to="/" />
             </Switch>
           </div>

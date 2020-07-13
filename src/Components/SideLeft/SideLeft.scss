@@ -70,7 +70,7 @@
 
 @media only screen and (max-width:991px){
   .mcq-sidebar-left{
-    display: none;
+    // display: none;
   }
 }
 
@@ -81,4 +81,16 @@
 
 .flex-1{
   flex:1
+}
+
+.logout{
+  margin: 10px auto;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:#3b4b5c ;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
 }

@@ -38,6 +38,7 @@ export const useOuterClick = (callback) => {
 export const useEvents = () => {
   const [start, setStart] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [score, setScore] = useState(undefined);
 
   useEffect(() => {
     document.addEventListener("started", () => {
@@ -48,6 +49,13 @@ export const useEvents = () => {
   useEffect(() => {
     document.addEventListener("completed", () => {
       setCompleted(localStorage.c);
+      setScore(localStorage.score);
+    });
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("score_removed", () => {
+      setScore(localStorage.score);
     });
   }, []);
 
@@ -55,11 +63,28 @@ export const useEvents = () => {
     window.addEventListener("load", () => {
       setStart(localStorage.s);
       setCompleted(localStorage.c);
+      setScore(localStorage.score);
     });
   }, []);
 
   return {
     start,
     completed,
+    score,
   };
+};
+
+export const useUser = () => {
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("data")).user
+  );
+
+  useEffect(() => {
+    const _getUser = () => {
+      const u = JSON.parse(localStorage.getItem("data")).user;
+      setUser(u);
+    };
+    _getUser();
+  }, []);
+  return user;
 };
